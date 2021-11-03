@@ -1,0 +1,15 @@
+{
+    "name": "anis/mvc",
+    "authors": [
+        {
+            "name": "Tobi Anifowose",
+            "email": "tobexkee@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {}
+}
