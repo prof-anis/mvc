@@ -6,6 +6,7 @@ class Request
 {
     public function currentUrl()
     {
-        return $_SERVER['REQUEST_URI'];
+        return Str::stripBeginingSlash($_SERVER['REQUEST_URI']);
     }
+
 }

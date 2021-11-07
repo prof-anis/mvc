@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Utility\Router;
+
 class CommentController
 {
     public function __construct()
     {
-        echo "I am in th comment controller";
+        $app = Router::getInstance();
+
+        $app->start();
     }
 
     public function index()
