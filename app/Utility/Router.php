@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Utility;
+
 use App\Http\Controllers\HomeController;
+use App\Exceptions\InvalidLogicException;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Utility\Request;
@@ -10,10 +12,6 @@ use App\Utility\Str;
 class Router
 {
     protected $request;
-
-    public static $helloWord = "hello world";
-
-    public $simpleGuy = 'Simple guy';
 
     public static $instance;
 
@@ -40,7 +38,7 @@ class Router
     public function start()
     {
         if ($this->hasStarted == true) {
-            throw new \Exception('Router already running');
+            throw new InvalidLogicException('Router already running');
         }
 
         $this->hasStarted = true;
