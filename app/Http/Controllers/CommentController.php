@@ -7,9 +7,8 @@ use App\Utility\Router;
 class CommentController
 {
     public function __construct()
-    {
+    {  
         $app = Router::getInstance();
-
         $app->start();
     }
 

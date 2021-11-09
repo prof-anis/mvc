@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Utility;
-
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Utility\Request;
@@ -56,7 +56,8 @@ class Router
     {
         return [
             "/post" => PostController::class,
-            'comment' => CommentController::class
+            'comment' => CommentController::class,
+            '/' => HomeController::class
         ];
     }
 
