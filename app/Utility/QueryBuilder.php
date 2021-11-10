@@ -46,7 +46,7 @@ class QueryBuilder
 
     public function setvalue ()
     {
-        $this->sql = sprintf("SELECT %s  FROM %s, %s, %s, %s ", $this->select, $this->table, $this->where, $this->limit );
+        $this->sql = sprintf("SELECT %s  FROM %s, %s, %s ", $this->select, $this->table, $this->where, $this->limit );
     }
  
 
