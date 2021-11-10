@@ -21,7 +21,7 @@ class Database
         // }
         
         try {
-            !$this->connectDB();
+            $this->connectDB();
         }
          catch ( \Throwable $e) {
             echo 'the is an error in your connection';

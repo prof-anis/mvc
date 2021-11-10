@@ -10,22 +10,33 @@ use App\Utility\Router;
 
 $db = new QueryBuilder();
 
-$sql = $db->table('users')->insert([
-    "name" => "tobi",
-    "email" => "tobexkee@gmail.com",
-    "password" => "hello hello",
-    "date" => "today"
-]);
+// $sql = $db->table('users')->insert([
+//     "name" => "tobi",
+//     "email" => "tobexkee@gmail.com",
+//     "password" => "hello hello",
+//     "date" => "today"
+// ])->toSql();
 
-$db->table('users')->select(['name', 'email'])->where('id', 10)->limit(5)->orderBy('id', 'DESC')->toSql();
+//  $db->table('users')->select(['name', 'email'])->where('id', 10)->limit(5)->orderBy('id', 'DESC')->toSql();
 
-
-echo $sql->toSql();
+ $db->table('users')->select(['name', 'email'])->where('id', 10)->setvalue();
+ 
+// $db->where('id', 10);
+ echo $db->toSql();
 
 
 /*$app = Router::getInstance();
 $app->start();
 */
+
+
+
+
+
+
+
+
+
 /**
  * BUILDER DESIGN PATTERN
  *
