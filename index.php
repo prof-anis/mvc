@@ -4,22 +4,28 @@ require __DIR__.'/vendor/autoload.php';
 
 use App\Exceptions\InvalidLogicException;
 use App\FoobBank;
-use App\Utility\QueryBuilder;
+use App\Utility\Database\QueryBuilder;
 use App\Utility\Router;
 
 
 $db = new QueryBuilder();
 
-// $sql = $db->table('users')->insert([
-//     "name" => "tobi",
-//     "email" => "tobexkee@gmail.com",
-//     "password" => "hello hello",
-//     "date" => "today"
-// ])->toSql();
+/**
+ * $db->where("name", "tobi") -- WHERE name = tobi
+ * $db->where("name", "!=", "tobi") -- WHERE name != tobi
+ * $db->where(["name" => "tobi"]) -- WHERE name = tobi
+ * $db->where(["name", "!=" , "tobi"]) -- WHERE name != tobi
+ *
+ * $db->where(["name" => "tobi"], ["password" => "pass"], ["email", "tobi@mail.com"]);
+ *
+ * $db->where("name", "tobi")->where("password" , "pass")->where("email", "tobi@mail.com");
+ *
+ * $db->where(["name" , "!=", "tobi], ["email", "!=", "anis"])
+ */
 
 //  $db->table('users')->select(['name', 'email'])->where('id', 10)->limit(5)->orderBy('id', 'DESC')->toSql();
 
- $db->table('users')->select(['name', 'email'])->where('id', 10)->setvalue();
+ $db->table('users')->select("*")->where('id', 10)->get();
  
 // $db->where('id', 10);
  echo $db->toSql();
@@ -28,6 +34,8 @@ $db = new QueryBuilder();
 /*$app = Router::getInstance();
 $app->start();
 */
+
+
 
 
 
