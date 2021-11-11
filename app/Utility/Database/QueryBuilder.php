@@ -2,6 +2,8 @@
 
 namespace App\Utility\Database;
 
+use App\Utility\Database\Database;
+
 class QueryBuilder
 {
     protected string $sql;
@@ -10,6 +12,16 @@ class QueryBuilder
     private $limit;
     private $select;
     private array $inserts;
+    private $orderByField;
+    /**
+     * @var mixed|string
+     */
+    private mixed $orderByDirection;
+
+    public function __construct()
+    {
+        $this->database = Database::getInstance();
+    }
 
     public function table(string $table)
     {
@@ -35,12 +47,12 @@ class QueryBuilder
 
         $this->sql = $insertBuilder->build();
 
-        return $this;
+        return $this->database->query($this->toSql());
     }
     
-    public function where(string $id, int $num)
+    public function where()
     {
-         $this->where = sprintf('WHERE %s = %s', $id, $num);
+         $this->where[] = func_get_args();
 
          return $this;
     }
@@ -52,7 +64,7 @@ class QueryBuilder
 
     public function limit (int $number)
     {
-        $this->limit = sprintf('LIMIT = %s', $number);
+        $this->limit = $number;
 
         return $this;
     }
@@ -81,10 +93,44 @@ class QueryBuilder
 
         $this->sql =  $selectBuilder->build();
 
+        if ($this->database->query($this->toSql())) {
+            return $this->database->fetch();
+        } else {
+            return [];
+        }
+
+    }
+
+    public function orderBy($field, $direction = "ASC")
+    {
+        $this->orderByField = $field;
+        $this->orderByDirection = $direction;
+
+        return $this;
+    }
+
+    public function getOrderByField()
+    {
+        return $this->orderByField;
+    }
+
+    public function getOrderByDirection()
+    {
+        return $this->orderByDirection;
     }
 
     public function toSql()
     {
         return $this->sql;
+    }
+
+    public function delete()
+    {
+
+    }
+
+    public function update(array $data)
+    {
+
     }
 }

@@ -12,12 +12,31 @@ class SelectBuilder implements BuilderInterface
     public function build(): string
     {
         return $this->sql = sprintf(
-            "SELECT %s  FROM %s, %s, %s ",
+            "SELECT %s  FROM %s %s %s %s ",
             $this->prepareFieldsToSelect(),
             $this->queryBuilder->getTable(),
-            $this->queryBuilder->getWhere(),
-            $this->queryBuilder->getLimit()
+            $this->prepareWhereClause(),
+            $this->prepareOrderClause(),
+            $this->prepareLimitClause()
         );
+    }
+
+    protected function prepareLimitClause()
+    {
+        if ($this->queryBuilder->getLimit() == null) {
+            return "";
+        } else {
+            return " LIMIT ".$this->queryBuilder->getLimit();
+        }
+    }
+
+    protected function prepareOrderClause()
+    {
+        if ($this->queryBuilder->getOrderByField() == null) {
+            return "";
+        } else {
+            return sprintf("ORDER BY %s %s", $this->queryBuilder->getOrderByField(), $this->queryBuilder->getOrderByDirection());
+        }
     }
 
     protected function prepareValues(array $selects)
@@ -45,6 +64,13 @@ class SelectBuilder implements BuilderInterface
             return $this->prepareValues($selects);
         }
 
+    }
+
+    private function prepareWhereClause()
+    {
+        $whereBuilder = new WhereBuilder($this->queryBuilder);
+
+        return $whereBuilder->build();
     }
 
 
