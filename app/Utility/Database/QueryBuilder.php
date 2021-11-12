@@ -38,12 +38,18 @@ class QueryBuilder
         return $this;
     }
     
-    public function where(string $id, int $num)
-    {
-         $this->where = sprintf('WHERE %s = %s', $id, $num);
+    // public function where(string $id, int $num)
+    // {
+    //      $this->where = sprintf('WHERE %s = %s', $id, $num);
 
-         return $this;
-    }
+    //      return $this;
+    // }
+        public function where () 
+        {
+          $this->where = func_get_args();
+            return $this;
+        }    
+
 
     public function getWhere()
     {

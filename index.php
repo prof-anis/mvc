@@ -25,8 +25,7 @@ $db = new QueryBuilder();
 
 //  $db->table('users')->select(['name', 'email'])->where('id', 10)->limit(5)->orderBy('id', 'DESC')->toSql();
 
- $db->table('users')->select("*")->where('id', 10)->get();
- 
+ $db->table('users')->select("*")->where(['id', '!=','emeka'], ['id', '!=', 'emeka'])->get();
 // $db->where('id', 10);
  echo $db->toSql();
 
