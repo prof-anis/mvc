@@ -2,6 +2,8 @@
 
 namespace App\Utility\Database;
 
+use App\Utility\Database\Database;
+
 class QueryBuilder
 {
     protected string $sql;
@@ -9,7 +11,18 @@ class QueryBuilder
     private $table;
     private $limit;
     private $select;
+    private $update;
     private array $inserts;
+    private $orderByField;
+    /**
+     * @var mixed|string
+     */
+    private mixed $orderByDirection;
+
+    public function __construct()
+    {
+        $this->database = Database::getInstance();
+    }
 
     public function table(string $table)
     {
@@ -19,7 +32,7 @@ class QueryBuilder
 
     public function getTable()
     {
-        return $this->table;
+      return $this->table;
     }
 
     public function getInserts()
@@ -35,21 +48,14 @@ class QueryBuilder
 
         $this->sql = $insertBuilder->build();
 
+        return $this->database->query($this->toSql());
+    }
+
+    public function where()
+    {
+         $this->where[] = func_get_args();
         return $this;
     }
-    
-    // public function where(string $id, int $num)
-    // {
-    //      $this->where = sprintf('WHERE %s = %s', $id, $num);
-
-    //      return $this;
-    // }
-        public function where () 
-        {
-          $this->where = func_get_args();
-            return $this;
-        }    
-
 
     public function getWhere()
     {
@@ -58,7 +64,7 @@ class QueryBuilder
 
     public function limit (int $number)
     {
-        $this->limit = sprintf('LIMIT = %s', $number);
+        $this->limit = $number;
 
         return $this;
     }
@@ -87,10 +93,74 @@ class QueryBuilder
 
         $this->sql =  $selectBuilder->build();
 
+        if ($this->database->query($this->sql)) {
+                return $this->database->fetch();
+        } else {
+            return [];
+        }
+
+    }
+
+    public function orderBy($field, $direction = "ASC")
+    {
+        $this->orderByField = $field;
+        $this->orderByDirection = $direction;
+
+        return $this;
+    }
+
+    public function getOrderByField()
+    {
+        return $this->orderByField;
+    }
+
+    public function getOrderByDirection()
+    {
+        return $this->orderByDirection;
     }
 
     public function toSql()
     {
         return $this->sql;
     }
+
+    public function delete()
+    {
+      $delete = new DeleteBuilder($this);
+      $this->sql = $delete->build();
+        if($this->database->query($this->sql)){
+            echo "your info has been deleted";
+        }
+        else{
+            echo "the is an error deleting this file";
+        }
+    }
+
+
+    public function update (array $data)
+    {
+        $this->update = $data;
+        return $this;
+    }
+
+    public function getUpdate ()
+    {
+        return $this->update;
+
+    }
+
+    public function startQuery()
+    {
+        $start = new updateBuilder($this);
+      $this->sql = $start->build();
+
+        if($this->database->query($this->sql)){
+            echo 'your file have been updated <br>';
+        }else {
+            
+            echo'error updating your file';
+        }
+    }
+
+
 }

@@ -10,23 +10,16 @@ use App\Utility\Router;
 
 $db = new QueryBuilder();
 
-/**
- * $db->where("name", "tobi") -- WHERE name = tobi
- * $db->where("name", "!=", "tobi") -- WHERE name != tobi
- * $db->where(["name" => "tobi"]) -- WHERE name = tobi
- * $db->where(["name", "!=" , "tobi"]) -- WHERE name != tobi
- *
- * $db->where(["name" => "tobi"], ["password" => "pass"], ["email", "tobi@mail.com"]);
- *
- * $db->where("name", "tobi")->where("password" , "pass")->where("email", "tobi@mail.com");
- *
- * $db->where(["name" , "!=", "tobi], ["email", "!=", "anis"])
- */
 
-//  $db->table('users')->select(['name', 'email'])->where('id', 10)->limit(5)->orderBy('id', 'DESC')->toSql();
 
- $db->table('users')->select("*")->where(['id', '!=','emeka'], ['id', '!=', 'emeka'])->get();
-// $db->where('id', 10);
+
+// you call the update like this 
+$db->table('user')->update(['username', 'david'])->where('id', '=', '2')->startQuery();
+
+//  while the delete like this
+
+ $db->table('user')->where('id', '=', '1')->delete();
+
  echo $db->toSql();
 
 
